@@ -2,9 +2,10 @@ package main
 
 import (
 	"bufio"
-	"hello/scope"
 	"log"
 	"os"
+
+	"github.com/kgolding/go-temp-test/scope"
 )
 
 func main() {
@@ -34,6 +35,9 @@ func main() {
 		}
 
 		log.Println("Decoded: ", m.String())
+
+		// Send OK
+		f.Write([]byte{0x4F, 0x4B, 0x0D, 0x0A, 0x3E}) // "OK\r\n>"
 	}
 	log.Println("Port closed")
 }
