@@ -2,18 +2,21 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"log"
 	"os"
 
+	"github.com/kgolding/go-temp-test/rutos"
 	"github.com/kgolding/go-temp-test/scope"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		panic("missing arg")
-	}
+	var port, tel string
 
-	port := os.Args[1]
+	flag.StringVar(&port, "port", "/dev/rs232", "serial port device")
+	flag.StringVar(&tel, "tel", "", "telephone number to send SMS too")
+
+	flag.Parse()
 
 	f, err := os.Open(port)
 	if err != nil {
@@ -38,6 +41,14 @@ func main() {
 
 		// Send OK
 		f.Write([]byte{0x4F, 0x4B, 0x0D, 0x0A, 0x3E}) // "OK\r\n>"
+
+		if tel != "" {
+			log.Printf("Sending SMS to %s: '%s'\n", tel, m.Message)
+			err = rutos.SendSMS(tel, m.Message)
+			if err != nil {
+				log.Printf("Error sending SMS to %s: '%s': %s\n", tel, m.Message, err.Error())
+			}
+		}
 	}
 	log.Println("Port closed")
 }

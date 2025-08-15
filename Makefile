@@ -2,7 +2,7 @@ test:
 	socat -t3 -T3 pty,raw,echo=0,link=/tmp/dport1 pty,raw,echo=0,link=/tmp/dport2 &
 	bash -c "sleep 2 && echo -e 'A7654321BTest!\r' > /tmp/dport2" &
 	bash -c "sleep 3 && echo -e 'N1234567C999\r' > /tmp/dport2" &
-	go run main.go /tmp/dport1
+	go run main.go -port /tmp/dport1 -tel 07816999999
 
 run:
 	go run main.go /dev/ttyUSB0
