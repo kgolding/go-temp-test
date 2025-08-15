@@ -15,14 +15,14 @@ type SendSMSPayload struct {
 }
 
 func SendSMS(tel string, text string) error {
-	err := ubus_call("send_sms", map[string]any{
+	err := ubus_call("send_sms", map[string]interface{}{
 		"number": tel,
 		"text":   text,
 	})
 	return err
 }
 
-func ubus_call(command string, data map[string]any) error {
+func ubus_call(command string, data map[string]interface{}) error {
 	payload, err := json.Marshal(data)
 	if err != nil {
 		return err

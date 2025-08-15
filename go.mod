@@ -1,6 +1,6 @@
 module github.com/kgolding/go-temp-test
 
-go 1.23
+go 1.17
 
 require github.com/stretchr/testify v1.10.0
 
